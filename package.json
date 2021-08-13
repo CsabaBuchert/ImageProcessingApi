@@ -23,8 +23,8 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "prettier": "prettier --config .prettierrc \"**/*.js\" --write",
-    "eslint": "eslint --config .eslintrc \"**/*.js\"",
+    "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
+    "eslint": "eslint --config .eslintrc \"**/src/*.ts\"",
     "build": "npx tsc",
     "jasmine": "jasmine",
     "test": "npm run build && npm run jasmine"
