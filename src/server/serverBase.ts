@@ -1,32 +1,38 @@
 import express, { response } from "express";
 
 export default class ServerBase {
-    private app;
-    private port: number;
-    private api_name: string;
+    private _app;
+    private _port: number;
+    private _api_name: string;
 
     constructor(port: number, api_name: string) {
-        this.app = express();
-        this.port = port;
-        this.api_name = api_name;
+        this._app = express();
+        this._port = port;
+        this._api_name = api_name;
 
         //set endpoint
-        this.app.get("/" + this.api_name, (request, response) => {
-            if (this.messageReceived) this.messageReceived(request, response);
-            else
-                console.error(
+        this._app.get("/" + this._api_name, (request, response) => {
+            if (this.messageReceived) {
+                this.messageReceived(request, response);
+            } else {
+                throw new Error(
                     "Api can't receive message due to unimplemented messageReceived function!"
                 );
+            }
         });
     }
 
+    public get app() {
+        return this._app;
+    }
+
     public startListening(): void {
-        this.app.listen(this.port, () => this.listeningStarted());
+        this._app.listen(this._port, () => this.listeningStarted());
     }
 
     protected listeningStarted(): void {
         console.log(
-            "Api (" + this.api_name + ") listening on port " + this.port + "!"
+            "Api (" + this._api_name + ") listening on port " + this._port + "!"
         );
     }
 
