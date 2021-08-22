@@ -13,6 +13,11 @@ export default class ImageProvider {
         height: number
     ): Promise<Buffer> {
         return new Promise((resolve, reject) => {
+            if (width <= 0 || height <= 0) {
+                reject(new Error("got invalid image size parameters"));
+                return;
+            }
+
             this.tryGetFromCache(name, width, height)
                 .then((data) => resolve(data))
                 .catch((_) => {
