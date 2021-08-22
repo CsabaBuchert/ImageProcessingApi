@@ -33,7 +33,7 @@
     "jasmine": "jasmine",
     "test": "npm run build && npm run jasmine",
     "all": "npm run prettier && npm run eslint && npm run test",
-    "start": "node out/index"
+    "start": "npm run build && node out/index"
   },
   "repository": {
     "type": "git",
