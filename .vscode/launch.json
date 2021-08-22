@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Program",
+            "name": "Typescript Launch Program",
             "program": "C:/Users/buche/OneDrive/Documents/GitHub/ImageProcessingApi/out/index.js",
             "request": "launch",
             "skipFiles": [
@@ -13,26 +13,17 @@
             ],
             "type": "pwa-node"
         },
-        //{
-        //    "type": "node",
-        //    "request": "launch",
-        //    "name": "Launch Program",
-        //    "program": "${workspaceFolder}/index.ts",
-        //    "preLaunchTask": "tsc",
-        //    "outFiles": ["${workspaceFolder}/out/**/*.js"],
-            //"args": []
-        //},
-        //{ 
-        //    "type": "node", 
-        //    "request": "launch", 
-        //    "name": "Jasmine Individual Test", 
-        //    "program": "C:/Users/buche/OneDrive/Documents/GitHub/ImageProcessingApi/node_modules/jasmine/bin/jasmine.js", 
-        //    "args": [ 
-        //        "out/tests/server/imageProcesserServerSpec.js" 
-        //    ], 
-        //    "env": { 
-        //        "NODE_PATH": "." 
-        //    } 
-        //}*/
+        { 
+            "type": "node", 
+            "request": "launch", 
+            "name": "Jasmine Individual Test", 
+            "program": "C:/Users/buche/OneDrive/Documents/GitHub/ImageProcessingApi/node_modules/jasmine/bin/jasmine.js", 
+            "args": [ 
+                "out/tests/server/imageProcesserServerSpec.js" 
+            ], 
+            "env": { 
+                "NODE_PATH": "." 
+            } 
+        }
     ]
 }

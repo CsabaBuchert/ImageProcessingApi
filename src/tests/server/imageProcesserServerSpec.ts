@@ -1,4 +1,5 @@
-import express, { response } from "express";
+import { debug } from "console";
+import express, { json, response } from "express";
 import supertest from "supertest";
 import ImageProcesserServer from "../../server/imageProcesserServer";
 
@@ -8,11 +9,13 @@ class MockImageProcesserServer extends ImageProcesserServer {
         response: express.Response
     ): void {
         console.log("request >>>> " + request);
-        response.send({
-            Image: request.query.filename,
-            width: request.query.width,
-            height: request.query.height,
-        });
+        response.send(
+            JSON.stringify({
+                image: request.query.filename,
+                width: request.query.width,
+                height: request.query.height,
+            })
+        );
     }
 }
 
@@ -24,22 +27,17 @@ describe("Test Image Processer Server", () => {
         const response = await request.get("/image_processer");
         expect(response.status).toBe(200);
     });
-    /*
-    ToDo: fix this test
     it("gets the right parameters from requestMock", async () => {
         await requestMock
-            .get("/image_processer")
-            .field("filename", "test_img")
-            .field("width", 100)
-            .field("height", 100)
+            .get("/image_processer?filename=test_img&width=100&height=200")
             .expect((response) => {
-                console.log("response >>>> " + response);
                 expect(response.status).toBe(200);
-                expect(response.body).toEqual({
-                    Image: "test_img",
-                    width: 100,
-                    height: 100,
+                const answer = JSON.parse(response.text);
+                expect(answer).toEqual({
+                    image: "test_img",
+                    width: "100",
+                    height: "200",
                 });
             });
-    });*/
+    });
 });
