@@ -48,12 +48,20 @@ export default class ImageProvider {
                     if (err) {
                         reject(new Error(err?.message));
                     } else {
-                        resolve(data);
+                        resolve(this.resizeImage(data, width, height));
                     }
 
                     fs.closeSync(fd);
                 });
             });
         });
+    }
+
+    private async resizeImage(
+        data: Buffer,
+        width: number,
+        height: number
+    ): Promise<Buffer> {
+        return await sharp(data).resize(width, height).toBuffer();
     }
 }

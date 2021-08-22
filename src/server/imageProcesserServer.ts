@@ -37,11 +37,11 @@ export default class ImageProcesserServer extends ServerBase {
                 })
                 .catch((err) => {
                     console.log(err);
-                    response.send(err);
+                    response.send(err.message);
                 });
         } catch (err) {
             console.log(err);
-            response.send(err);
+            response.send(err.message);
         }
     }
 }
