@@ -31,7 +31,37 @@ export default class ImageProvider {
         height: number
     ): Promise<Buffer> {
         return new Promise((resolve, reject) => {
-            reject(new Error("not implemented"));
+            const filePath = path.join(
+                this.thumbnailsImagePath,
+                width + "_" + height,
+                name
+            );
+            this.readFile(filePath)
+                .then(async (data) => {
+                    resolve(data);
+                })
+                .catch((err) => reject(err));
+        });
+    }
+
+    private readFile(path: string): Promise<Buffer> {
+        return new Promise((resolve, reject) => {
+            fs.open(path, "r", (err, fd) => {
+                if (err) {
+                    reject(new Error(err.message));
+                    return;
+                }
+
+                fs.readFile(fd, async (err, data) => {
+                    if (err) {
+                        reject(new Error(err?.message));
+                    } else {
+                        resolve(data);
+                    }
+
+                    fs.closeSync(fd);
+                });
+            });
         });
     }
 
@@ -42,29 +72,20 @@ export default class ImageProvider {
     ): Promise<Buffer> {
         return new Promise((resolve, reject) => {
             const filePath = path.join(this.origImagePath, name);
-            fs.open(filePath, "r", (err, fd) => {
-                if (err) {
+            this.readFile(filePath)
+                .then(async (data) => {
+                    const resized_data = await this.resizeImage(
+                        data,
+                        width,
+                        height
+                    );
+                    this.saveImage(resized_data, name, width, height);
+                    resolve(resized_data);
+                })
+                .catch((err) => {
                     console.error("file open error: " + err.message);
-                    reject(new Error(err.message));
-                    return;
-                }
-
-                fs.readFile(fd, async (err, data) => {
-                    if (err) {
-                        reject(new Error(err?.message));
-                    } else {
-                        const resized_data = await this.resizeImage(
-                            data,
-                            width,
-                            height
-                        );
-                        this.saveImage(resized_data, name, width, height);
-                        resolve(resized_data);
-                    }
-
-                    fs.closeSync(fd);
+                    reject(err);
                 });
-            });
         });
     }
 
